@@ -1,6 +1,6 @@
-hacked
-compiled
-overloaded
-defined
-casted
-deleted
+will hack
+will compile
+will overload
+will define
+will cast
+will delete
