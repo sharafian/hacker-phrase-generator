@@ -10,6 +10,7 @@ adjsl = ftowl("adjs.txt")
 verbsl = ftowl("verbs.txt")
 articlesl = ftowl("articles.txt")
 prepsl = ftowl("preps.txt")
+conjsl = ftowl("conjs.txt")
 
 def getRandomWord(part):
 	return choice({\
@@ -18,6 +19,7 @@ def getRandomWord(part):
 "VERB"   :verbsl,\
 "ARTICLE":articlesl,\
 "PREP"   :prepsl,\
+"CONJ"   :conjsl,
 "END"    :[""],\
 }[part])
 
@@ -25,11 +27,12 @@ def getRandomWord(part):
 def getNextPart(part):
 	l = {
 # markov thing to map parts of speech together
-		"NOUN": [ ("VERB",0.5), ("PREP",0.4), ("END",0.1) ],\
+		"NOUN": [ ("VERB",0.4), ("PREP",0.3), ("CONJ",0.2), ("END",0.1) ],\
 		"ADJ": [ ("ADJ",0.2), ("NOUN",0.8) ],\
 		"VERB": [ ("PREP",0.5), ("ARTICLE",0.5) ],\
 		"ARTICLE": [ ("ADJ",0.7), ("NOUN",0.3) ],\
 		"PREP": [ ("ARTICLE",1.0) ],\
+		"CONJ": [ ("ARTICLE",0.6), ("PREP",0.4) ],\
 	}[part][:]
 	c = random()
 	e = None
