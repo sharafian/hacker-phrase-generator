@@ -47,4 +47,4 @@ def getPhrase():
 		if part == "END":
 			return sub(r'a ([aeiou])', r'an \1', phrase)[:-1] + "."
 
-print getPhrase()
+#print getPhrase()
