@@ -25,30 +25,36 @@ def getRandomWord(part):
 }[part])
 
 # everything to actually generate the phrases
-def getNextPart(part):
+# hacky, I know, but it uses a boolean to keep track of context
+def getNextPart(part, subj):
 	l = {
 # markov thing to map parts of speech together
-		"SUBJ": [ ("VERB",0.7), ("CONJ",0.3) ],\
+		"SUBJ": [ ("VERB",1.0) ],\
 		"OBJ": [ ("PREP",0.6), ("CONJ",0.3), ("END",0.1) ],\
-		"ADJ": [ ("ADJ",0.2), ("SUBJ",0.4), ("OBJ",0.4) ],\
+		"ADJ": [ ("ADJ",0.3), ("SUBJ",0.7 * (subj)), ("OBJ",0.7 * (not subj)) ],\
 		"VERB": [ ("PREP",0.5), ("ARTICLE",0.5) ],\
-		"ARTICLE": [ ("ADJ",0.6), ("SUBJ",0.2), ("OBJ",0.2) ],\
+		"ARTICLE": [ ("ADJ",0.6), ("SUBJ",0.4 * (subj)), ("OBJ",0.4 * (not subj)) ],\
 		"PREP": [ ("ARTICLE",1.0) ],\
-		"CONJ": [ ("ARTICLE",0.6), ("PREP",0.4) ],\
+		"CONJ": [ ("ARTICLE",1.0) ],\
 	}[part][:]
 	c = random()
 	e = None
 	while c > 0.0:
 		e = l.pop()
 		c -= e[1]	
-	return e[0]
+
+	if (e[0] == "SUBJ" or e[0] == "OBJ"):
+		subj = not subj
+
+	return e[0], subj
 
 def getPhrase():
 	part = "ARTICLE"
 	phrase = ""
+	subj = True # 1 if subject, 2 if object is next
 	while True:
 		phrase += getRandomWord(part) + " "
-		part = getNextPart(part)
+		part, subj = getNextPart(part, subj)
 		if part == "END":
 			return sub(r'a ([aeiou])', r'an \1', phrase)[:-1] + "."
 
