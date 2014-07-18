@@ -56,6 +56,7 @@ def getPhrase():
 		phrase += getRandomWord(part) + " "
 		part, subj = getNextPart(part, subj)
 		if part == "END":
-			return sub(r'a ([aeiou])', r'an \1', phrase)[:-1] + "."
+			# fix 'a' vs 'an'
+			return sub(r'\ba ([aeiou])', r'an \1', phrase)[:-1] + "."
 
 #print getPhrase()
