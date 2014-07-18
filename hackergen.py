@@ -14,7 +14,8 @@ conjsl = ftowl("conjs.txt")
 
 def getRandomWord(part):
 	return choice({\
-"NOUN"   :nounsl,\
+"SUBJ"   :nounsl,\
+"OBJ"   :nounsl,\
 "ADJ"    :adjsl,\
 "VERB"   :verbsl,\
 "ARTICLE":articlesl,\
@@ -27,10 +28,11 @@ def getRandomWord(part):
 def getNextPart(part):
 	l = {
 # markov thing to map parts of speech together
-		"NOUN": [ ("VERB",0.4), ("PREP",0.3), ("CONJ",0.2), ("END",0.1) ],\
-		"ADJ": [ ("ADJ",0.2), ("NOUN",0.8) ],\
+		"SUBJ": [ ("VERB",0.7), ("CONJ",0.3) ],\
+		"OBJ": [ ("PREP",0.6), ("CONJ",0.3), ("END",0.1) ],\
+		"ADJ": [ ("ADJ",0.2), ("SUBJ",0.4), ("OBJ",0.4) ],\
 		"VERB": [ ("PREP",0.5), ("ARTICLE",0.5) ],\
-		"ARTICLE": [ ("ADJ",0.7), ("NOUN",0.3) ],\
+		"ARTICLE": [ ("ADJ",0.6), ("SUBJ",0.2), ("OBJ",0.2) ],\
 		"PREP": [ ("ARTICLE",1.0) ],\
 		"CONJ": [ ("ARTICLE",0.6), ("PREP",0.4) ],\
 	}[part][:]
