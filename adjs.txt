@@ -1,5 +1,7 @@
+anti-virus
 binary
 bitwise
+boolean
 hacker
 vim-using
 visual
@@ -11,3 +13,7 @@ bullshit
 compressed
 internet
 online
+super
+micro
+macro
+
