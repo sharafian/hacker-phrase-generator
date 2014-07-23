@@ -43,7 +43,7 @@ def getNextPart(part, subj):
 		e = l.pop()
 		c -= e[1]	
 
-	if (e[0] == "SUBJ" or e[0] == "OBJ"):
+	if (e[0] == "VERB" or e[0] == "CONJ"):
 		subj = not subj
 
 	return e[0], subj
