@@ -5,8 +5,8 @@ from re import sub
 # everything to load the proper words
 
 def toWord(l): 
-	if (l[0] == '>'): # start with a '>' for a literal
-		return l[1:]
+	if (l[0] == '>'): # start with a '>' for a (mostly) literal
+		return l.strip()[1:]
 	return ' ' + l.strip()
 
 def ftowl(fname): # file to word list
