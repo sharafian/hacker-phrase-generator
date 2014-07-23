@@ -3,8 +3,15 @@ from random import choice, random
 from re import sub
 
 # everything to load the proper words
+
+def toWord(l): 
+	if (l[0] == '>'): # start with a '>' for a literal
+		return l[1:]
+	return ' ' + l.strip()
+
 def ftowl(fname): # file to word list
-        return [ l.strip() for l in open(fname) ]
+        return [ toWord(l) for l in open(fname) ]
+
 nounsl = ftowl("nouns.txt")
 adjsl = ftowl("adjs.txt")
 verbsl = ftowl("verbs.txt")
@@ -53,10 +60,10 @@ def getPhrase():
 	phrase = ""
 	subj = True # 1 if subject, 2 if object is next
 	while True:
-		phrase += getRandomWord(part) + " "
+		phrase += getRandomWord(part)
 		part, subj = getNextPart(part, subj)
 		if part == "END":
 			# fix 'a' vs 'an'
-			return sub(r'\ba ([aeiou])', r'an \1', phrase)[:-1] + "."
+			return sub(r'\ba ([aeiou])', r'an \1', phrase)[1:] + "."
 
 #print getPhrase()
