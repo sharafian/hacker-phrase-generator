@@ -55,15 +55,25 @@ def getNextPart(part, subj):
 
 	return e[0], subj
 
-def getPhrase():
+def formatPhrase(phrase):
+	return sub(r'\ba ([aeiou])', r'an \1', phrase)[1:] + "."
+
+def getPhrase(limit = -1):
 	part = "ARTICLE"
 	phrase = ""
+	ccount = 0 # counts conjunctions
 	subj = True # 1 if subject, 2 if object is next
 	while True:
+
+		if part == "CONJ":
+			ccount += 1
+			if ccount == limit:
+				return formatPhrase(phrase)
+
 		phrase += getRandomWord(part)
 		part, subj = getNextPart(part, subj)
 		if part == "END":
 			# fix 'a' vs 'an'
-			return sub(r'\ba ([aeiou])', r'an \1', phrase)[1:] + "."
+			return formatPhrase(phrase)
 
 #print getPhrase()
