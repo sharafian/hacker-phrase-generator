@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 from random import choice, random
 from re import sub
+import os.path
 
 # everything to load the proper words
 
@@ -9,8 +10,9 @@ def toWord(l):
 		return l.strip()[1:]
 	return ' ' + l.strip()
 
+dirprefix = "hackergen"
 def ftowl(fname): # file to word list
-        return [ toWord(l) for l in open(fname) ]
+        return [ toWord(l) for l in open(os.path.join(dirprefix, fname), "rb") ]
 
 nounsl = ftowl("nouns.txt")
 adjsl = ftowl("adjs.txt")
