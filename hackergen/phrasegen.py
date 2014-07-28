@@ -46,6 +46,17 @@ def tense(choice="act"):
                                 verbsl.append(verb+"ping")
                         else:
                                 verbsl.append(verb+"ing")
+        elif choice == "pas":
+                verbsl = []
+                for verb in original_verbsl:
+                        if verb == "run":
+                                verbsl.append("ran")
+                        elif verb.endswith("e"):
+                                verbsl.append(verb+"d")
+                        elif verb.endswith("p"):
+                                verbsl.append(verb+"ped")
+                        else:
+                                verbsl.append(verb+"ed")
         else:
                 raise ValueError("Unrecognized tense "+str(choice))
 tense()
