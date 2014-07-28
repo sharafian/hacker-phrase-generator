@@ -3,8 +3,15 @@ from random import choice, random
 from re import sub
 
 # everything to load the proper words
+
+def toWord(l): 
+	if (l[0] == '>'): # start with a '>' for a (mostly) literal
+		return l.strip()[1:]
+	return ' ' + l.strip()
+
 def ftowl(fname): # file to word list
-        return [ l.strip() for l in open(fname) ]
+        return [ toWord(l) for l in open(fname) ]
+
 nounsl = ftowl("nouns.txt")
 adjsl = ftowl("adjs.txt")
 verbsl = ftowl("verbs.txt")
@@ -43,20 +50,30 @@ def getNextPart(part, subj):
 		e = l.pop()
 		c -= e[1]	
 
-	if (e[0] == "SUBJ" or e[0] == "OBJ"):
+	if (e[0] == "VERB" or e[0] == "CONJ"):
 		subj = not subj
 
 	return e[0], subj
 
-def getPhrase():
+def formatPhrase(phrase):
+	return sub(r'\ba ([aeiou])', r'an \1', phrase)[1:] + "."
+
+def getPhrase(limit = -1):
 	part = "ARTICLE"
 	phrase = ""
+	ccount = 0 # counts conjunctions
 	subj = True # 1 if subject, 2 if object is next
 	while True:
-		phrase += getRandomWord(part) + " "
+
+		if part == "CONJ":
+			ccount += 1
+			if ccount == limit:
+				return formatPhrase(phrase)
+
+		phrase += getRandomWord(part)
 		part, subj = getNextPart(part, subj)
 		if part == "END":
 			# fix 'a' vs 'an'
-			return sub(r'\ba ([aeiou])', r'an \1', phrase)[:-1] + "."
+			return formatPhrase(phrase)
 
 #print getPhrase()
