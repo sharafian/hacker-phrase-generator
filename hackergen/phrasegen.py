@@ -21,30 +21,59 @@ articlesl = ftowl("articles.txt")
 prepsl = ftowl("preps.txt")
 conjsl = ftowl("conjs.txt")
 
+original_verbsl = verbsl[:]
+def tense(choice="act"):
+        """Converts The Verbs To A Specific Tense."""
+        global verbsl
+
+        if choice == "act":
+                verbsl = []
+                for verb in original_verbsl:
+                        if verb.endswith("s") or verb.endswith("y"):
+                                verbsl.append(verb+"es")
+                        else:
+                                verbsl.append(verb+"s")
+        elif choice == "fut":
+                verbsl = []
+                for verb in original_verbsl:
+                        verbsl.append(" will"+verb)
+        elif choice == "inf":
+                verbsl = []
+                for verb in original_verbsl:
+                        if verb.endswith("e"):
+                                verbsl.append(verb[:-1]+"ing")
+                        elif verb.endswith("p"):
+                                verbsl.append(verb+"ping")
+                        else:
+                                verbsl.append(verb+"ing")
+        else:
+                raise ValueError("Unrecognized tense "+str(choice))
+tense()
+
 def getRandomWord(part):
-	return choice({\
-"SUBJ"   :nounsl,\
-"OBJ"   :nounsl,\
-"ADJ"    :adjsl,\
-"VERB"   :verbsl,\
-"ARTICLE":articlesl,\
-"PREP"   :prepsl,\
-"CONJ"   :conjsl,
-"END"    :[""],\
-}[part])
+	return choice({
+                "SUBJ"   :nounsl,
+                "OBJ"   :nounsl,
+                "ADJ"    :adjsl,
+                "VERB"   :verbsl,
+                "ARTICLE":articlesl,
+                "PREP"   :prepsl,
+                "CONJ"   :conjsl,
+                "END"    :[""],
+                }[part])
 
 # everything to actually generate the phrases
 # hacky, I know, but it uses a boolean to keep track of context
 def getNextPart(part, subj):
 	l = {
 # markov thing to map parts of speech together
-		"SUBJ": [ ("VERB",1.0) ],\
-		"OBJ": [ ("PREP",0.6), ("CONJ",0.3), ("END",0.1) ],\
-		"ADJ": [ ("ADJ",0.3), ("SUBJ",0.7 * (subj)), ("OBJ",0.7 * (not subj)) ],\
-		"VERB": [ ("PREP",0.5), ("ARTICLE",0.5) ],\
-		"ARTICLE": [ ("ADJ",0.6), ("SUBJ",0.4 * (subj)), ("OBJ",0.4 * (not subj)) ],\
-		"PREP": [ ("ARTICLE",1.0) ],\
-		"CONJ": [ ("ARTICLE",1.0) ],\
+		"SUBJ": [ ("VERB",1.0) ],
+		"OBJ": [ ("PREP",0.6), ("CONJ",0.3), ("END",0.1) ],
+		"ADJ": [ ("ADJ",0.3), ("SUBJ",0.7 * (subj)), ("OBJ",0.7 * (not subj)) ],
+		"VERB": [ ("PREP",0.5), ("ARTICLE",0.5) ],
+		"ARTICLE": [ ("ADJ",0.6), ("SUBJ",0.4 * (subj)), ("OBJ",0.4 * (not subj)) ],
+		"PREP": [ ("ARTICLE",1.0) ],
+		"CONJ": [ ("ARTICLE",1.0) ],
 	}[part][:]
 	c = random()
 	e = None
