@@ -1,4 +1,4 @@
 hacker-phrase-generator
 =======================
 
-generates silly phrases
+Generates silly hacker-themed phrases.

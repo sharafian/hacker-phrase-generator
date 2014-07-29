@@ -1,4 +1,10 @@
 #!/usr/bin/env python
-import hackergen
+from hackergen import phrasegen
 
-print(hackergen.getPhrase())
+def getPhrase(*args, **kwargs):
+    return phrasegen.getPhrase(*args, **kwargs)
+
+def printPhrase(*args, **kwargs):
+    print "Generated Phrase:\n\n"+getPhrase(*args, **kwargs)
+
+printPhrase()
