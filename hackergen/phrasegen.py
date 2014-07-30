@@ -61,8 +61,7 @@ def tense(choice="FUT"):
 	if (vtt == None):
 		raise ValueError("Unrecognized tense "+str(choice))
 
-	for verb in verbsl:
-		verb = vtt(verb)
+	verbsl[:] = [ vtt(v) for v in verbsl ]
 	
 tense()
 
