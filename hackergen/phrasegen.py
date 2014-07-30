@@ -22,22 +22,23 @@ prepsl = ftowl("preps.txt")
 conjsl = ftowl("conjs.txt")
 
 original_verbsl = verbsl[:]
-def tense(choice="act"):
+
+def tense(choice="ACT"):
         """Converts The Verbs To A Specific Tense."""
         global verbsl
 
-        if choice == "act":
+        if choice == "ACT":
                 verbsl = []
                 for verb in original_verbsl:
                         if verb.endswith("s") or verb.endswith("y"):
                                 verbsl.append(verb+"es")
                         else:
                                 verbsl.append(verb+"s")
-        elif choice == "fut":
+        elif choice == "FUT":
                 verbsl = []
                 for verb in original_verbsl:
                         verbsl.append(" will"+verb)
-        elif choice == "inf":
+        elif choice == "INF":
                 verbsl = []
                 for verb in original_verbsl:
                         if verb.endswith("e"):
@@ -46,7 +47,7 @@ def tense(choice="act"):
                                 verbsl.append(verb+"ping")
                         else:
                                 verbsl.append(verb+"ing")
-        elif choice == "pas":
+        elif choice == "PAS":
                 verbsl = []
                 for verb in original_verbsl:
                         if verb == "run":
