@@ -5,6 +5,6 @@ def getPhrase(*args, **kwargs):
 	return phrasegen.getPhrase(*args, **kwargs)
 
 def printPhrase(*args, **kwargs):
-	print "Generated Phrase:\n\n"+getPhrase(*args, **kwargs)
+	print getPhrase(*args, **kwargs)
 
 printPhrase()
