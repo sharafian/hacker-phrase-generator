@@ -53,7 +53,7 @@ tenses = {
 	"PAS" : toPAS,
 }
 
-def tense(choice="ACT"):
+def tense(choice="FUT"):
 	"""Converts The Verbs To A Specific Tense."""
 	global verbsl
 
