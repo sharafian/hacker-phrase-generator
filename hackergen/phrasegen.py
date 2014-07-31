@@ -12,7 +12,7 @@ def toWord(l):
 
 dirprefix = "hackergen"
 def ftowl(fname): # file to word list
-        return [ toWord(l) for l in open(os.path.join(dirprefix, fname), "rb") ]
+	return [ toWord(l) for l in open(os.path.join(dirprefix, fname), "rb") ]
 
 nounsl = ftowl("nouns.txt")
 adjsl = ftowl("adjs.txt")
@@ -22,56 +22,60 @@ prepsl = ftowl("preps.txt")
 conjsl = ftowl("conjs.txt")
 
 original_verbsl = verbsl[:]
-def tense(choice="act"):
-        """Converts The Verbs To A Specific Tense."""
-        global verbsl
 
-        if choice == "act":
-                verbsl = []
-                for verb in original_verbsl:
-                        if verb.endswith("s") or verb.endswith("y"):
-                                verbsl.append(verb+"es")
-                        else:
-                                verbsl.append(verb+"s")
-        elif choice == "fut":
-                verbsl = []
-                for verb in original_verbsl:
-                        verbsl.append(" will"+verb)
-        elif choice == "inf":
-                verbsl = []
-                for verb in original_verbsl:
-                        if verb.endswith("e"):
-                                verbsl.append(verb[:-1]+"ing")
-                        elif verb.endswith("p"):
-                                verbsl.append(verb+"ping")
-                        else:
-                                verbsl.append(verb+"ing")
-        elif choice == "pas":
-                verbsl = []
-                for verb in original_verbsl:
-                        if verb == "run":
-                                verbsl.append("ran")
-                        elif verb.endswith("e"):
-                                verbsl.append(verb+"d")
-                        elif verb.endswith("p"):
-                                verbsl.append(verb+"ped")
-                        else:
-                                verbsl.append(verb+"ed")
-        else:
-                raise ValueError("Unrecognized tense "+str(choice))
+def toACT(verb):
+	if verb.endswith("s") or verb.endswith("y"):
+		return (verb+"es")
+	else:
+		return (verb+"s")
+def toFUT(verb):
+	return (" will"+verb)
+def toINF(verb):
+	if verb.endswith("e"):
+		return (verb[:-1]+"ing")
+	elif verb.endswith("p"):
+		return (verb+"ping")
+	else:
+		return (verb+"ing")
+def toPAS(verb):
+	if verb == "run":
+		verbsl.append("ran")
+	elif verb.endswith("e"):
+		verbsl.append(verb+"d")
+	elif verb.endswith("p"):
+		verbsl.append(verb+"ped")
+	else:
+		verbsl.append(verb+"ed")
+tenses = {
+	"ACT" : toACT,
+	"FUT" : toFUT,
+	"INF" : toINF,
+	"PAS" : toPAS,
+}
+
+def tense(choice="FUT"):
+	"""Converts The Verbs To A Specific Tense."""
+	global verbsl
+
+	vtt = tenses[choice]
+	if (vtt == None):
+		raise ValueError("Unrecognized tense "+str(choice))
+
+	verbsl[:] = [ vtt(v) for v in verbsl ]
+	
 tense()
 
 def getRandomWord(part):
 	return choice({
-                "SUBJ"   :nounsl,
-                "OBJ"   :nounsl,
-                "ADJ"    :adjsl,
-                "VERB"   :verbsl,
-                "ARTICLE":articlesl,
-                "PREP"   :prepsl,
-                "CONJ"   :conjsl,
-                "END"    :[""],
-                }[part])
+		"SUBJ"   :nounsl,
+		"OBJ"   :nounsl,
+		"ADJ"    :adjsl,
+		"VERB"   :verbsl,
+		"ARTICLE":articlesl,
+		"PREP"   :prepsl,
+		"CONJ"   :conjsl,
+		"END"    :[""],
+		}[part])
 
 # everything to actually generate the phrases
 # hacky, I know, but it uses a boolean to keep track of context
