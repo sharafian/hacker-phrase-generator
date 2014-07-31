@@ -57,8 +57,10 @@ def tense(choice="FUT"):
 	"""Converts The Verbs To A Specific Tense."""
 	global verbsl
 
-	vtt = tenses[choice]
-	if (vtt == None):
+	choice = choice.upper()		# Allow tense names to be in lowercase
+	if choice in tenses:		# Remember, Python throws an error if you try and get a key that doesn't exist, so we need to do this
+		vtt = tenses[choice]
+	else:							
 		raise ValueError("Unrecognized tense "+str(choice))
 
 	verbsl[:] = [ vtt(v) for v in verbsl ]
